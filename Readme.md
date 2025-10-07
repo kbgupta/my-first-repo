@@ -1,42 +1,30 @@
-My First Repo
+# Login once
 
-pipeline {
+argocd login localhost:9090 --insecure
+ 
+# Then create the app without needing --server flag
 
-  agent any
+argocd app create simple-new-app \
 
-  stages {
+  --repo https://github.com/neerajk555/argocd-demo.git \
 
-    stage('Hello1') {
+  --path my-argocd-app \
 
-      steps {
+  --dest-server https://kubernetes.default.svc \
 
-        sh 'echo hello1'
+  --dest-namespace default
+ 
+argocd app create simple-new-app \
 
-      }
+  --repo https://github.com/neerajk555/argocd-demo.git \
 
-    }
+  --path my-argocd-app \
 
-    stage('sleep') {
+  --dest-server https://kubernetes.default.svc \
 
-      steps {
+  --dest-namespace default \
 
-        sh 'sleep 60'
+  --server localhost:9090 \
 
-      }
-
-    }
-
-    stage('Hello2') {
-
-      steps {
-
-        sh 'echo hello2'
-
-      }
-
-    }
-
-  }
-
-}
+  --server-crt /path/to/argocd-server.crt
  
